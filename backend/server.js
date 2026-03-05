@@ -21,14 +21,16 @@ const connectDB = async () => {
   }
 };
 
+// Import routes
+const authRoutes = require('./routes/auth');
+
 // Routes
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the MERN API' });
+  res.json({ message: 'Welcome to Collabs+ API' });
 });
 
-// Import routes (add your routes here)
-// const userRoutes = require('./routes/userRoutes');
-// app.use('/api/users', userRoutes);
+// API Routes
+app.use('/api/auth', authRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
