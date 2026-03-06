@@ -19,8 +19,9 @@ export const AuthProvider = ({ children }) => {
 
   const loadUser = async () => {
     try {
-      const userData = await authService.getMe();
-      setUser(userData);
+      const response = await authService.getMe();
+      // Backend returns { success, data: { user info } }
+      setUser(response.data || response);
     } catch (error) {
       localStorage.removeItem('token');
       setUser(null);
@@ -30,17 +31,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    const data = await authService.login(email, password);
-    localStorage.setItem('token', data.token);
-    setUser(data.user || data);
-    return data;
+    const response = await authService.login(email, password);
+    // Backend returns { success, data: { _id, name, email, token } }
+    const userData = response.data || response;
+    localStorage.setItem('token', userData.token);
+    setUser(userData);
+    return userData;
   };
 
   const register = async (name, email, password) => {
-    const data = await authService.register(name, email, password);
-    localStorage.setItem('token', data.token);
-    setUser(data.user || data);
-    return data;
+    const response = await authService.register(name, email, password);
+    // Backend returns { success, data: { _id, name, email, token } }
+    const userData = response.data || response;
+    localStorage.setItem('token', userData.token);
+    setUser(userData);
+    return userData;
   };
 
   const logout = () => {
