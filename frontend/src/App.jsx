@@ -1,32 +1,33 @@
-import { useState, useEffect } from 'react'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import './App.css';
 
 function App() {
-  const [message, setMessage] = useState('')
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    // Test API connection
-    fetch('/api')
-      .then(res => res.json())
-      .then(data => {
-        setMessage(data.message || 'Connected to backend!')
-        setLoading(false)
-      })
-      .catch(err => {
-        setMessage('Backend not connected')
-        setLoading(false)
-      })
-  }, [])
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>MERN Stack App</h1>
-        <p>{loading ? 'Loading...' : message}</p>
-      </header>
-    </div>
-  )
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
