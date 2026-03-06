@@ -3,10 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import notesService from '../services/notesService';
+import { useAuth } from '../context/AuthContext';
+import CollaboratorPanel from '../components/CollaboratorPanel';
 
 const NoteEditor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const isNewNote = !id || id === 'new';
 
   const [title, setTitle] = useState('');
@@ -17,6 +20,11 @@ const NoteEditor = () => {
   const [error, setError] = useState('');
   const [lastUpdated, setLastUpdated] = useState(null);
   const [noteId, setNoteId] = useState(id !== 'new' ? id : null);
+  const [noteOwner, setNoteOwner] = useState(null);
+  const [collaborators, setCollaborators] = useState([]);
+  const [showSharePanel, setShowSharePanel] = useState(false);
+
+  const isOwner = noteOwner && user && noteOwner._id === user._id;
 
   // Quill editor modules configuration
   const modules = {
@@ -58,6 +66,8 @@ const NoteEditor = () => {
       setContent(note.content || '');
       setLastUpdated(note.updatedAt);
       setNoteId(note._id);
+      setNoteOwner(note.owner);
+      setCollaborators(note.collaborators || []);
     } catch (err) {
       setError('Failed to load note');
       console.error(err);
@@ -84,6 +94,7 @@ const NoteEditor = () => {
         // Create new note
         response = await notesService.createNote({ title, content });
         setNoteId(response.data._id);
+        setNoteOwner(response.data.owner || user);
         // Update URL to reflect the new note ID
         navigate(`/notes/${response.data._id}`, { replace: true });
       }
@@ -158,6 +169,21 @@ const NoteEditor = () => {
           Back
         </button>
         <div className="editor-actions">
+          {/* Share button - only visible to owner */}
+          {(isOwner || isNewNote) && noteId && (
+            <button
+              onClick={() => setShowSharePanel(true)}
+              className="btn-share"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" />
+              </svg>
+              Share
+            </button>
+          )}
           <button
             onClick={handleDelete}
             className="btn-delete"
@@ -208,6 +234,16 @@ const NoteEditor = () => {
           />
         </div>
       </div>
+
+      {/* Collaborator Panel */}
+      {showSharePanel && noteId && (
+        <CollaboratorPanel
+          noteId={noteId}
+          collaborators={collaborators}
+          onUpdate={fetchNote}
+          onClose={() => setShowSharePanel(false)}
+        />
+      )}
     </div>
   );
 };
