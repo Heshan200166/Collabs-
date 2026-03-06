@@ -36,17 +36,12 @@ const Dashboard = () => {
     navigate('/login');
   };
 
-  const handleNewNote = async () => {
-    try {
-      const response = await notesService.createNote({
-        title: 'Untitled Note',
-        content: '',
-      });
-      // Navigate to the new note or add to list
-      setNotes([response.data, ...notes]);
-    } catch (err) {
-      setError('Failed to create note');
-    }
+  const handleNewNote = () => {
+    navigate('/notes/new');
+  };
+
+  const handleNoteClick = (noteId) => {
+    navigate(`/notes/${noteId}`);
   };
 
   // Filter notes based on search and tab
@@ -178,6 +173,7 @@ const Dashboard = () => {
                 key={note._id}
                 className="note-card"
                 style={{ borderLeftColor: note.color || '#646cff' }}
+                onClick={() => handleNoteClick(note._id)}
               >
                 <div className="note-header">
                   <h3 className="note-title">{note.title}</h3>

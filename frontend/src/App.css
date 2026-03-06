@@ -464,3 +464,227 @@
   width: 14px;
   height: 14px;
 }
+
+/* Note Editor */
+.editor-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #333;
+  margin-bottom: 1.5rem;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid #444;
+  color: #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.btn-back:hover {
+  background: #242424;
+  border-color: #555;
+}
+
+.btn-back svg {
+  width: 18px;
+  height: 18px;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-delete {
+  padding: 0.6rem 1.25rem;
+  background: transparent;
+  border: 1px solid #666;
+  color: #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.btn-delete:hover:not(:disabled) {
+  background: #ff4444;
+  border-color: #ff4444;
+  color: #fff;
+}
+
+.btn-delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-save {
+  padding: 0.6rem 1.5rem;
+  background: #646cff;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #535bf2;
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.editor-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.note-title-input {
+  width: 100%;
+  padding: 0.75rem 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 600;
+  outline: none;
+  margin-bottom: 0.5rem;
+}
+
+.note-title-input::placeholder {
+  color: #555;
+}
+
+.last-updated {
+  color: #666;
+  font-size: 0.85rem;
+  margin: 0 0 1rem;
+}
+
+.quill-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* React Quill Custom Styles */
+.quill-wrapper .quill {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.quill-wrapper .ql-toolbar {
+  background: #1a1a1a;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding: 0.75rem;
+}
+
+.quill-wrapper .ql-toolbar .ql-stroke {
+  stroke: #888;
+}
+
+.quill-wrapper .ql-toolbar .ql-fill {
+  fill: #888;
+}
+
+.quill-wrapper .ql-toolbar .ql-picker {
+  color: #888;
+}
+
+.quill-wrapper .ql-toolbar button:hover .ql-stroke,
+.quill-wrapper .ql-toolbar .ql-picker-label:hover .ql-stroke {
+  stroke: #646cff;
+}
+
+.quill-wrapper .ql-toolbar button:hover .ql-fill,
+.quill-wrapper .ql-toolbar .ql-picker-label:hover .ql-fill {
+  fill: #646cff;
+}
+
+.quill-wrapper .ql-toolbar button.ql-active .ql-stroke {
+  stroke: #646cff;
+}
+
+.quill-wrapper .ql-toolbar button.ql-active .ql-fill {
+  fill: #646cff;
+}
+
+.quill-wrapper .ql-toolbar .ql-picker-options {
+  background: #242424;
+  border: 1px solid #333;
+}
+
+.quill-wrapper .ql-toolbar .ql-picker-item {
+  color: #ccc;
+}
+
+.quill-wrapper .ql-toolbar .ql-picker-item:hover {
+  color: #646cff;
+}
+
+.quill-wrapper .ql-container {
+  flex: 1;
+  background: #1a1a1a;
+  border: none;
+  font-size: 1rem;
+  min-height: 400px;
+}
+
+.quill-wrapper .ql-editor {
+  color: #ddd;
+  line-height: 1.7;
+  padding: 1.25rem;
+}
+
+.quill-wrapper .ql-editor.ql-blank::before {
+  color: #555;
+  font-style: normal;
+}
+
+.quill-wrapper .ql-editor h1,
+.quill-wrapper .ql-editor h2,
+.quill-wrapper .ql-editor h3 {
+  color: #fff;
+}
+
+.quill-wrapper .ql-editor a {
+  color: #646cff;
+}
+
+.quill-wrapper .ql-editor blockquote {
+  border-left: 3px solid #646cff;
+  padding-left: 1rem;
+  color: #aaa;
+}
+
+.quill-wrapper .ql-editor pre.ql-syntax {
+  background: #0d0d0d;
+  border-radius: 6px;
+  padding: 1rem;
+  color: #ddd;
+}
