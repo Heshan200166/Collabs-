@@ -24,6 +24,7 @@ const connectDB = async () => {
 // Import routes
 const authRoutes = require('./routes/auth');
 const noteRoutes = require('./routes/notes');
+const searchRoutes = require('./routes/search');
 
 // Routes
 app.get('/', (req, res) => {
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/notes', noteRoutes);
+app.use('/api/search', searchRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

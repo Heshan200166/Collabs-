@@ -211,10 +211,17 @@ exports.deleteNote = async (req, res, next) => {
 
 // @desc    Add collaborator to note
 // @route   POST /api/notes/:id/collaborators
-// @access  Private
+// @access  Private (Owner only)
 exports.addCollaborator = async (req, res, next) => {
   try {
     const { email, permission } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide collaborator email'
+      });
+    }
 
     const note = await Note.findById(req.params.id);
 
@@ -225,21 +232,16 @@ exports.addCollaborator = async (req, res, next) => {
       });
     }
 
-    // Check if user is owner or admin
-    const isOwner = note.owner.toString() === req.user._id.toString();
-    const isAdmin = note.collaborators.some(
-      c => c.user.toString() === req.user._id.toString() && c.permission === 'admin'
-    );
-
-    if (!isOwner && !isAdmin) {
+    // Only owner can add collaborators
+    if (note.owner.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
-        message: 'Not authorized to add collaborators'
+        message: 'Only the note owner can add collaborators'
       });
     }
 
-    // Find user by email
-    const userToAdd = await User.findOne({ email });
+    // Find user by email - must have an account
+    const userToAdd = await User.findOne({ email: email.toLowerCase() });
 
     if (!userToAdd) {
       return res.status(404).json({
@@ -290,7 +292,7 @@ exports.addCollaborator = async (req, res, next) => {
 
 // @desc    Remove collaborator from note
 // @route   DELETE /api/notes/:id/collaborators/:userId
-// @access  Private
+// @access  Private (Owner only, or self-removal)
 exports.removeCollaborator = async (req, res, next) => {
   try {
     const note = await Note.findById(req.params.id);
@@ -302,18 +304,14 @@ exports.removeCollaborator = async (req, res, next) => {
       });
     }
 
-    // Check if user is owner or admin
+    // Only owner can remove collaborators (or collaborator can remove themselves)
     const isOwner = note.owner.toString() === req.user._id.toString();
-    const isAdmin = note.collaborators.some(
-      c => c.user.toString() === req.user._id.toString() && c.permission === 'admin'
-    );
-    // Users can remove themselves
     const isSelf = req.params.userId === req.user._id.toString();
 
-    if (!isOwner && !isAdmin && !isSelf) {
+    if (!isOwner && !isSelf) {
       return res.status(403).json({
         success: false,
-        message: 'Not authorized to remove collaborators'
+        message: 'Only the note owner can remove collaborators'
       });
     }
 
