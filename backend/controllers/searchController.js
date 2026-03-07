@@ -1,4 +1,32 @@
 const Note = require('../models/Note');
+const User = require('../models/User');
+
+
+exports.searchUsers = async (req, res, next) => {
+  try {
+    const { q } = req.query;
+
+    if (!q || q.trim().length < 2) {
+      return res.json({ success: true, data: [] });
+    }
+
+    // Search users by email (partial match), exclude current user
+    const users = await User.find({
+      _id: { $ne: req.user._id },
+      email: { $regex: q, $options: 'i' }
+    })
+      .select('name email')
+      .limit(10);
+
+    res.json({
+      success: true,
+      count: users.length,
+      data: users
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 exports.searchNotes = async (req, res, next) => {

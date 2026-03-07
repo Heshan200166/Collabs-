@@ -1,15 +1,15 @@
 # Collabs+
 
-A collaborative note-taking application built with the MERN stack. Create, edit, and share notes with real-time collaboration features.
+A collaborative note-taking application built with the MERN stack. Create, edit, and share notes with other users.
 
 ## Features
 
 - **User Authentication** - Secure registration and login with JWT tokens
 - **Notes Management** - Create, read, update, and delete personal notes
 - **Rich Text Editor** - Format notes with headings, lists, code blocks, and more
-- **Real-time Collaboration** - Share notes with other users
+- **Note Sharing** - Share notes with other users via email
 - **Role-based Permissions** - Assign Viewer (read-only) or Editor (read/write) roles to collaborators
-- **Search** - Find notes and users quickly with instant search
+- **Search** - Find notes by title, content, or owner/collaborator name
 - **Responsive Design** - Works seamlessly on desktop and mobile devices
 
 ## Tech Stack
@@ -176,13 +176,12 @@ npm run frontend
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/search/users?q=query` | Search users by email |
-| GET | `/api/search/notes?q=query` | Search notes by title |
 
 ## Usage
 
 1. **Register/Login** - Create an account or sign in
 2. **Create Notes** - Click "New Note" to create a note with rich text formatting
-3. **Share Notes** - Click "Share" to invite collaborators
+3. **Share Notes** - Click "Share" to invite collaborators by email
 4. **Set Permissions** - Choose "Viewer" for read-only or "Editor" for full access
 5. **Collaborate** - Collaborators can view or edit based on their assigned role
 

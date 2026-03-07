@@ -59,7 +59,13 @@ const Dashboard = () => {
         note =>
           note.title?.toLowerCase().includes(query) ||
           note.content?.toLowerCase().includes(query) ||
-          note.tags?.some(tag => tag.toLowerCase().includes(query))
+          note.tags?.some(tag => tag.toLowerCase().includes(query)) ||
+          note.owner?.name?.toLowerCase().includes(query) ||
+          note.owner?.email?.toLowerCase().includes(query) ||
+          note.collaborators?.some(c => 
+            c.user?.name?.toLowerCase().includes(query) ||
+            c.user?.email?.toLowerCase().includes(query)
+          )
       );
     }
 

@@ -1,6 +1,12 @@
 import api from './api';
 
 const notesService = {
+  // Search users by email
+  searchUsers: async (query) => {
+    const response = await api.get('/search/users', { params: { q: query } });
+    return response.data;
+  },
+
   // Get all notes (owned + shared)
   getNotes: async (params = {}) => {
     const response = await api.get('/notes', { params });
