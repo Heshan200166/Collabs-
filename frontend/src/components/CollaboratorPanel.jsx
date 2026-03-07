@@ -90,9 +90,8 @@ const CollaboratorPanel = ({ noteId, collaborators = [], onUpdate, onClose }) =>
               onChange={(e) => setPermission(e.target.value)}
               className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-indigo-500"
             >
-              <option value="read">View</option>
-              <option value="write">Edit</option>
-              <option value="admin">Admin</option>
+              <option value="read">Viewer</option>
+              <option value="write">Editor</option>
             </select>
           </div>
           <button 
@@ -116,7 +115,15 @@ const CollaboratorPanel = ({ noteId, collaborators = [], onUpdate, onClose }) =>
           <h4 className="text-sm font-medium text-gray-400 mb-3">People with access</h4>
           
           {collaborators.length === 0 ? (
-            <p className="text-sm text-gray-600 text-center py-4">No collaborators yet</p>
+            <div className="text-center py-8">
+              <div className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                </svg>
+              </div>
+              <p className="text-sm text-gray-400 font-medium mb-1">No collaborators yet</p>
+              <p className="text-xs text-gray-600">Invite someone to collaborate on this note</p>
+            </div>
           ) : (
             <ul className="space-y-2">
               {collaborators.map((collab) => (
@@ -140,9 +147,8 @@ const CollaboratorPanel = ({ noteId, collaborators = [], onUpdate, onClose }) =>
                       onChange={(e) => handlePermissionChange(collab.user._id, e.target.value)}
                       className="px-2 py-1 bg-gray-600 border border-gray-500 rounded text-white text-xs focus:outline-none"
                     >
-                      <option value="read">View</option>
-                      <option value="write">Edit</option>
-                      <option value="admin">Admin</option>
+                      <option value="read">Viewer</option>
+                      <option value="write">Editor</option>
                     </select>
                     <button
                       onClick={() => handleRemoveCollaborator(collab.user._id)}

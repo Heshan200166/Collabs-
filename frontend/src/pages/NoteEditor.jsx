@@ -209,15 +209,15 @@ const NoteEditor = () => {
         {/* Title Input */}
         <input
           type="text"
-          placeholder="Note title..."
+          placeholder="Untitled note"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full text-2xl font-semibold bg-transparent border-none text-white placeholder-gray-600 focus:outline-none mb-2"
+          className="w-full text-3xl font-bold bg-transparent border-b-2 border-transparent hover:border-gray-700 focus:border-indigo-500 text-white placeholder-gray-600 focus:outline-none mb-2 pb-2 transition-colors"
         />
 
         {/* Last Updated */}
         {lastUpdated && (
-          <p className="text-sm text-gray-600 mb-6">
+          <p className="text-sm text-gray-400 mb-6">
             Last updated: {formatDate(lastUpdated)}
           </p>
         )}
