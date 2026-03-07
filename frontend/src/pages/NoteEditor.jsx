@@ -89,12 +89,9 @@ const NoteEditor = () => {
         response = await notesService.updateNote(noteId, { title, content });
       } else {
         response = await notesService.createNote({ title, content });
-        setNoteId(response.data._id);
-        setNoteOwner(response.data.owner || user);
-        navigate(`/notes/${response.data._id}`, { replace: true });
       }
 
-      setLastUpdated(response.data.updatedAt || new Date().toISOString());
+      navigate('/dashboard');
     } catch (err) {
       setError('Failed to save note');
       console.error(err);
