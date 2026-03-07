@@ -98,3 +98,106 @@ body {
 .ql-toolbar.ql-snow button.ql-active .ql-fill {
   fill: #818cf8;
 }
+
+/* Rich Text Content Viewer Styles */
+.prose-content {
+  line-height: 1.75;
+}
+
+.prose-content h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.prose-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #fff;
+}
+
+.prose-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.prose-content p {
+  margin-bottom: 1rem;
+}
+
+.prose-content strong {
+  font-weight: 700;
+  color: #fff;
+}
+
+.prose-content em {
+  font-style: italic;
+}
+
+.prose-content u {
+  text-decoration: underline;
+}
+
+.prose-content s {
+  text-decoration: line-through;
+}
+
+.prose-content ul,
+.prose-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose-content ul {
+  list-style-type: disc;
+}
+
+.prose-content ol {
+  list-style-type: decimal;
+}
+
+.prose-content li {
+  margin-bottom: 0.25rem;
+}
+
+.prose-content blockquote {
+  border-left: 4px solid #6366f1;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.prose-content pre {
+  background-color: #111827;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.prose-content code {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9rem;
+  color: #a5b4fc;
+}
+
+.prose-content pre code {
+  color: #e5e7eb;
+}
+
+.prose-content a {
+  color: #818cf8;
+  text-decoration: underline;
+}
+
+.prose-content a:hover {
+  color: #a5b4fc;
+}

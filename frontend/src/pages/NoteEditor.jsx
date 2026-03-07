@@ -26,6 +26,11 @@ const NoteEditor = () => {
 
   const isOwner = noteOwner && user && noteOwner._id === user._id;
 
+  // Check if user is a viewer (collaborator with read-only permission)
+  const userCollaborator = collaborators.find(c => c.user?._id === user?._id);
+  const isViewer = !isOwner && !isNewNote && userCollaborator?.permission === 'read';
+  const canEdit = isOwner || isNewNote || userCollaborator?.permission === 'write';
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
@@ -156,12 +161,12 @@ const NoteEditor = () => {
       <header className="h-16 border-b border-gray-800 flex items-center justify-between px-6">
         <button
           onClick={handleBack}
-          className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors text-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white border border-gray-700 hover:border-gray-600 rounded-lg transition-all text-sm font-medium"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
           </svg>
-          Back
+          Back to notes
         </button>
 
         <div className="flex items-center gap-2">
@@ -187,13 +192,15 @@ const NoteEditor = () => {
             </button>
           )}
           
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {saving ? 'Saving...' : 'Save'}
-          </button>
+          {canEdit && (
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {saving ? 'Saving...' : 'Save'}
+            </button>
+          )}
         </div>
       </header>
 
@@ -206,33 +213,60 @@ const NoteEditor = () => {
 
       {/* Editor Content */}
       <div className="flex-1 max-w-4xl w-full mx-auto px-6 py-6">
-        {/* Title Input */}
-        <input
-          type="text"
-          placeholder="Untitled note"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full text-3xl font-bold bg-transparent border-b-2 border-transparent hover:border-gray-700 focus:border-indigo-500 text-white placeholder-gray-600 focus:outline-none mb-2 pb-2 transition-colors"
-        />
+        {/* Title - Read-only in viewer mode */}
+        {isViewer ? (
+          <h1 className="w-full text-3xl font-bold text-white mb-2 pb-2">
+            {title || 'Untitled'}
+          </h1>
+        ) : (
+          <input
+            type="text"
+            placeholder="Untitled note"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full text-3xl font-bold bg-transparent border-b-2 border-transparent hover:border-gray-700 focus:border-indigo-500 text-white placeholder-gray-600 focus:outline-none mb-2 pb-2 transition-colors"
+          />
+        )}
 
         {/* Last Updated */}
         {lastUpdated && (
-          <p className="text-sm text-gray-400 mb-6">
-            Last updated: {formatDate(lastUpdated)}
-          </p>
+          <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
+            <span>Last updated: {formatDate(lastUpdated)}</span>
+            {isViewer && (
+              <>
+                <span className="text-gray-600">•</span>
+                <span className="flex items-center gap-1.5 text-gray-500">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  View only
+                </span>
+                <span className="text-gray-600">•</span>
+                <span className="text-gray-500">Owner: <span className="text-gray-400">{noteOwner?.name}</span></span>
+              </>
+            )}
+          </div>
         )}
 
-        {/* Rich Text Editor */}
-        <div className="prose-editor">
-          <ReactQuill
-            theme="snow"
-            value={content}
-            onChange={setContent}
-            modules={modules}
-            formats={formats}
-            placeholder="Start writing..."
+        {/* Rich Text Editor / Viewer */}
+        {isViewer ? (
+          <div 
+            className="prose-content bg-gray-800 rounded-lg p-6 min-h-[400px] text-gray-100"
+            dangerouslySetInnerHTML={{ __html: content }}
           />
-        </div>
+        ) : (
+          <div className="prose-editor">
+            <ReactQuill
+              theme="snow"
+              value={content}
+              onChange={setContent}
+              modules={modules}
+              formats={formats}
+              placeholder="Start writing..."
+            />
+          </div>
+        )}
       </div>
 
       {/* Collaborator Panel */}

@@ -1,9 +1,7 @@
 const Note = require('../models/Note');
 const User = require('../models/User');
 
-// @desc    Get all notes for current user (owned + collaborated)
-// @route   GET /api/notes
-// @access  Private
+
 exports.getNotes = async (req, res, next) => {
   try {
     const { search, tag, archived, pinned } = req.query;
@@ -54,9 +52,7 @@ exports.getNotes = async (req, res, next) => {
   }
 };
 
-// @desc    Get single note
-// @route   GET /api/notes/:id
-// @access  Private
+
 exports.getNote = async (req, res, next) => {
   try {
     const note = await Note.findById(req.params.id)
@@ -91,9 +87,7 @@ exports.getNote = async (req, res, next) => {
   }
 };
 
-// @desc    Create new note
-// @route   POST /api/notes
-// @access  Private
+
 exports.createNote = async (req, res, next) => {
   try {
     const { title, content, tags, color } = req.body;
@@ -119,9 +113,7 @@ exports.createNote = async (req, res, next) => {
   }
 };
 
-// @desc    Update note
-// @route   PUT /api/notes/:id
-// @access  Private
+
 exports.updateNote = async (req, res, next) => {
   try {
     let note = await Note.findById(req.params.id);
@@ -175,9 +167,7 @@ exports.updateNote = async (req, res, next) => {
   }
 };
 
-// @desc    Delete note
-// @route   DELETE /api/notes/:id
-// @access  Private
+
 exports.deleteNote = async (req, res, next) => {
   try {
     const note = await Note.findById(req.params.id);
@@ -209,9 +199,7 @@ exports.deleteNote = async (req, res, next) => {
   }
 };
 
-// @desc    Add collaborator to note
-// @route   POST /api/notes/:id/collaborators
-// @access  Private (Owner only)
+
 exports.addCollaborator = async (req, res, next) => {
   try {
     const { email, permission } = req.body;
@@ -290,9 +278,7 @@ exports.addCollaborator = async (req, res, next) => {
   }
 };
 
-// @desc    Remove collaborator from note
-// @route   DELETE /api/notes/:id/collaborators/:userId
-// @access  Private (Owner only, or self-removal)
+
 exports.removeCollaborator = async (req, res, next) => {
   try {
     const note = await Note.findById(req.params.id);
@@ -334,9 +320,6 @@ exports.removeCollaborator = async (req, res, next) => {
   }
 };
 
-// @desc    Update collaborator permission
-// @route   PUT /api/notes/:id/collaborators/:userId
-// @access  Private
 exports.updateCollaboratorPermission = async (req, res, next) => {
   try {
     const { permission } = req.body;

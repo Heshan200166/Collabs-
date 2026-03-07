@@ -1,8 +1,6 @@
 const Note = require('../models/Note');
 
-// @desc    Advanced full-text search across notes
-// @route   GET /api/search
-// @access  Private
+
 exports.searchNotes = async (req, res, next) => {
   try {
     const { q, tag, owner, sortBy, limit = 20, page = 1 } = req.query;
@@ -94,9 +92,7 @@ exports.searchNotes = async (req, res, next) => {
   }
 };
 
-// @desc    Get search suggestions (autocomplete)
-// @route   GET /api/search/suggestions
-// @access  Private
+
 exports.getSearchSuggestions = async (req, res, next) => {
   try {
     const { q } = req.query;
@@ -145,9 +141,7 @@ exports.getSearchSuggestions = async (req, res, next) => {
   }
 };
 
-// @desc    Get all unique tags for user
-// @route   GET /api/search/tags
-// @access  Private
+
 exports.getAllTags = async (req, res, next) => {
   try {
     const notes = await Note.find({
@@ -181,7 +175,7 @@ exports.getAllTags = async (req, res, next) => {
   }
 };
 
-// Helper: Create preview snippet from content
+
 function createPreview(content, query, maxLength = 150) {
   if (!content) return '';
   

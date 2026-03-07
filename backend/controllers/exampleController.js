@@ -1,9 +1,7 @@
-// Example controller
+
 const Example = require('../models/Example');
 
-// @desc    Get all examples
-// @route   GET /api/examples
-// @access  Public
+
 exports.getExamples = async (req, res) => {
   try {
     const examples = await Example.find();
@@ -13,9 +11,7 @@ exports.getExamples = async (req, res) => {
   }
 };
 
-// @desc    Create example
-// @route   POST /api/examples
-// @access  Public
+
 exports.createExample = async (req, res) => {
   try {
     const example = new Example(req.body);
