@@ -184,13 +184,15 @@ const NoteEditor = () => {
               Share
             </button>
           )}
-          <button
-            onClick={handleDelete}
-            className="btn-delete"
-            disabled={deleting}
-          >
-            {deleting ? 'Deleting...' : 'Delete'}
-          </button>
+          {isOwner && (
+            <button
+              onClick={handleDelete}
+              className="btn-delete"
+              disabled={deleting}
+            >
+              {deleting ? 'Deleting...' : 'Delete'}
+            </button>
+          )}
           <button
             onClick={handleSave}
             className="btn-save"
