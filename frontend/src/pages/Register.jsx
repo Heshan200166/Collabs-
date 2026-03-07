@@ -46,13 +46,21 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2>Register</h2>
-        {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-sm bg-gray-800 rounded-xl p-8 shadow-lg">
+        <h2 className="text-2xl font-semibold text-center text-white mb-6">Register</h2>
+        
+        {error && (
+          <div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded-lg mb-4 text-sm">
+            {error}
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="name" className="block text-sm text-gray-400 mb-1.5">
+              Name
+            </label>
             <input
               type="text"
               id="name"
@@ -61,10 +69,14 @@ const Register = () => {
               onChange={handleChange}
               required
               placeholder="Enter your name"
+              className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-colors"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+          
+          <div>
+            <label htmlFor="email" className="block text-sm text-gray-400 mb-1.5">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -73,10 +85,14 @@ const Register = () => {
               onChange={handleChange}
               required
               placeholder="Enter your email"
+              className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-colors"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
+          
+          <div>
+            <label htmlFor="password" className="block text-sm text-gray-400 mb-1.5">
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -85,10 +101,14 @@ const Register = () => {
               onChange={handleChange}
               required
               placeholder="Create a password"
+              className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-colors"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+          
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm text-gray-400 mb-1.5">
+              Confirm Password
+            </label>
             <input
               type="password"
               id="confirmPassword"
@@ -97,14 +117,24 @@ const Register = () => {
               onChange={handleChange}
               required
               placeholder="Confirm your password"
+              className="w-full px-4 py-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 transition-colors"
             />
           </div>
-          <button type="submit" className="btn-primary" disabled={loading}>
+          
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors mt-2"
+          >
             {loading ? 'Creating account...' : 'Register'}
           </button>
         </form>
-        <p className="auth-link">
-          Already have an account? <Link to="/login">Login</Link>
+        
+        <p className="text-center text-gray-500 text-sm mt-6">
+          Already have an account?{' '}
+          <Link to="/login" className="text-indigo-400 hover:text-indigo-300">
+            Login
+          </Link>
         </p>
       </div>
     </div>

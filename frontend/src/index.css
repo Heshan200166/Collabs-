@@ -1,25 +1,72 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import "tailwindcss";
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+body {
+  background-color: #111827;
+  color: #f3f4f6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Quill Editor Overrides */
+.ql-toolbar.ql-snow {
+  border-color: #374151;
+  background-color: #1f2937;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 
-body {
-  min-width: 320px;
-  min-height: 100vh;
+.ql-container.ql-snow {
+  border-color: #374151;
+  background-color: #1f2937;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  color: #f3f4f6;
+  min-height: 400px;
+}
+
+.ql-editor {
+  color: #f3f4f6;
+  min-height: 400px;
+}
+
+.ql-editor.ql-blank::before {
+  color: #6b7280;
+}
+
+.ql-snow .ql-stroke {
+  stroke: #9ca3af;
+}
+
+.ql-snow .ql-fill {
+  fill: #9ca3af;
+}
+
+.ql-snow .ql-picker {
+  color: #9ca3af;
+}
+
+.ql-snow .ql-picker-options {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+.ql-snow .ql-picker-item:hover {
+  color: #fff;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label:hover,
+.ql-toolbar.ql-snow .ql-picker-label.ql-active,
+.ql-toolbar.ql-snow button:hover,
+.ql-toolbar.ql-snow button.ql-active {
+  color: #818cf8;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-stroke,
+.ql-toolbar.ql-snow button.ql-active .ql-stroke {
+  stroke: #818cf8;
+}
+
+.ql-toolbar.ql-snow button:hover .ql-fill,
+.ql-toolbar.ql-snow button.ql-active .ql-fill {
+  fill: #818cf8;
 }

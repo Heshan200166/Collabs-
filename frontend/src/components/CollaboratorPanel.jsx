@@ -21,7 +21,7 @@ const CollaboratorPanel = ({ noteId, collaborators = [], onUpdate, onClose }) =>
       await notesService.addCollaborator(noteId, { email, permission });
       setEmail('');
       setPermission('read');
-      onUpdate(); // Refresh note data
+      onUpdate();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to add collaborator');
     } finally {
@@ -37,7 +37,7 @@ const CollaboratorPanel = ({ noteId, collaborators = [], onUpdate, onClose }) =>
     try {
       setError('');
       await notesService.removeCollaborator(noteId, userId);
-      onUpdate(); // Refresh note data
+      onUpdate();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to remove collaborator');
     }
@@ -47,78 +47,98 @@ const CollaboratorPanel = ({ noteId, collaborators = [], onUpdate, onClose }) =>
     try {
       setError('');
       await notesService.updateCollaboratorPermission(noteId, userId, newPermission);
-      onUpdate(); // Refresh note data
+      onUpdate();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to update permission');
     }
   };
 
   return (
-    <div className="collaborator-panel-overlay" onClick={onClose}>
-      <div className="collaborator-panel" onClick={(e) => e.stopPropagation()}>
-        <div className="panel-header">
-          <h3>Share Note</h3>
-          <button onClick={onClose} className="btn-close">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 6L6 18M6 6l12 12" />
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-gray-800 rounded-xl w-full max-w-md shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+          <h3 className="text-lg font-semibold text-white">Share Note</h3>
+          <button 
+            onClick={onClose} 
+            className="text-gray-500 hover:text-white transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         {/* Add Collaborator Form */}
-        <form onSubmit={handleAddCollaborator} className="add-collaborator-form">
-          <div className="form-row">
+        <form onSubmit={handleAddCollaborator} className="p-4 border-b border-gray-700">
+          <div className="flex gap-2 mb-3">
             <input
               type="email"
               placeholder="Enter email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="collaborator-email-input"
+              className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-indigo-500"
             />
             <select
               value={permission}
               onChange={(e) => setPermission(e.target.value)}
-              className="permission-select"
+              className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-indigo-500"
             >
-              <option value="read">Can view</option>
-              <option value="write">Can edit</option>
+              <option value="read">View</option>
+              <option value="write">Edit</option>
               <option value="admin">Admin</option>
             </select>
           </div>
-          <button type="submit" className="btn-add-collaborator" disabled={loading}>
-            {loading ? 'Adding...' : 'Add'}
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            {loading ? 'Adding...' : 'Add Collaborator'}
           </button>
         </form>
 
-        {error && <div className="panel-error">{error}</div>}
+        {/* Error */}
+        {error && (
+          <div className="mx-4 mt-4 bg-red-500/20 border border-red-500 text-red-400 px-3 py-2 rounded-lg text-sm">
+            {error}
+          </div>
+        )}
 
-        {/* Current Collaborators */}
-        <div className="collaborators-list">
-          <h4>People with access</h4>
+        {/* Collaborators List */}
+        <div className="p-4">
+          <h4 className="text-sm font-medium text-gray-400 mb-3">People with access</h4>
+          
           {collaborators.length === 0 ? (
-            <p className="no-collaborators">No collaborators yet</p>
+            <p className="text-sm text-gray-600 text-center py-4">No collaborators yet</p>
           ) : (
-            <ul>
+            <ul className="space-y-2">
               {collaborators.map((collab) => (
-                <li key={collab.user._id} className="collaborator-item">
-                  <div className="collaborator-info">
-                    <div className="collaborator-avatar">
-                      {collab.user.avatar ? (
-                        <img src={collab.user.avatar} alt={collab.user.name} />
-                      ) : (
-                        <span>{collab.user.name?.charAt(0).toUpperCase()}</span>
-                      )}
+                <li 
+                  key={collab.user._id} 
+                  className="flex items-center justify-between p-2 bg-gray-700/50 rounded-lg"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                      {collab.user.name?.charAt(0).toUpperCase()}
                     </div>
-                    <div className="collaborator-details">
-                      <span className="collaborator-name">{collab.user.name}</span>
-                      <span className="collaborator-email">{collab.user.email}</span>
+                    <div>
+                      <p className="text-sm text-white">{collab.user.name}</p>
+                      <p className="text-xs text-gray-500">{collab.user.email}</p>
                     </div>
                   </div>
-                  <div className="collaborator-actions">
+                  
+                  <div className="flex items-center gap-2">
                     <select
                       value={collab.permission}
                       onChange={(e) => handlePermissionChange(collab.user._id, e.target.value)}
-                      className="permission-select-small"
+                      className="px-2 py-1 bg-gray-600 border border-gray-500 rounded text-white text-xs focus:outline-none"
                     >
                       <option value="read">View</option>
                       <option value="write">Edit</option>
@@ -126,11 +146,11 @@ const CollaboratorPanel = ({ noteId, collaborators = [], onUpdate, onClose }) =>
                     </select>
                     <button
                       onClick={() => handleRemoveCollaborator(collab.user._id)}
-                      className="btn-remove-collaborator"
-                      title="Remove collaborator"
+                      className="p-1 text-gray-500 hover:text-red-400 transition-colors"
+                      title="Remove"
                     >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M18 6L6 18M6 6l12 12" />
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
                   </div>
